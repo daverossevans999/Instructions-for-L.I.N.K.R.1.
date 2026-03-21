@@ -1,4 +1,21 @@
-<h1>&& dir</h1> 
+<h1>
+import os
+from flask import Flask, request
+
+app = Flask(__name__)
+
+# VULNERABLE: Direct concatenation of user input into a system command
+@app.route('/list-directory')
+def list_directory():
+    folder = request.args.get('folder')
+    # Input example: 'photos; ls -la'
+    command = "ls -l /home/user/uploads/" + folder
+    result = os.popen(command).read() 
+    return f"<pre>{result}</pre>"
+
+if __name__ == '__main__':
+    app.run()
+</h1> 
 <h2>/h2> 
 
 <p>This page contains information about artificial intelligence systems.</p>
